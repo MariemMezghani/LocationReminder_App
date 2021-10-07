@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import com.github.mariemmezghani.locationreminder.R
 import com.github.mariemmezghani.locationreminder.databinding.ActivityAuthenticationBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.github.mariemmezghani.locationreminder.locationreminders.RemindersActivity
+import com.google.firebase.auth.FirebaseUser
 
 
 /**
@@ -29,9 +31,14 @@ class AuthenticationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthenticationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.button.setOnClickListener{launchSignIn()}
         observeAuthenticationState()
-
     }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
 
     // observes authentication state and make changes accordingly
     private fun observeAuthenticationState() {
@@ -44,7 +51,7 @@ class AuthenticationActivity : AppCompatActivity() {
 
                 }
                 else -> {
-                    launchSignIn()
+                    //launchSignIn()
 
                 }
             }
@@ -60,7 +67,9 @@ class AuthenticationActivity : AppCompatActivity() {
         // create and launch sign-in intent
         //we listen to the response with SIGH_IN_REQUEST_CODE
         startActivityForResult(
-                AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build(),
+                AuthUI.getInstance().createSignInIntentBuilder().
+                setTheme(R.style.LoginTheme)
+                        .setAvailableProviders(providers).build(),
                 AuthenticationActivity.SIGN_IN_REQUEST_CODE
         )
 
