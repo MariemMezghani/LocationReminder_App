@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/remindersActivity"
-        android:name="com.github.mariemmezghani.locationreminder.RemindersActivity"
+        android:name="com.github.mariemmezghani.locationreminder.locationreminders.RemindersActivity"
         android:label="RemindersActivity" />
     <fragment
         android:id="@+id/remindersFragment"
