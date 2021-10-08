@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.github.mariemmezghani.locationreminder.R
 import com.github.mariemmezghani.locationreminder.base.BaseFragment
+import com.github.mariemmezghani.locationreminder.base.NavigationCommand
+import com.github.mariemmezghani.locationreminder.databinding.FragmentSaveReminderBinding
+import com.github.mariemmezghani.locationreminder.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
 
-/*
+
 class SaveReminderFragment : BaseFragment() {
     //Get the view model this time as a single to be shared with the another fragment
     override val _viewModel: SaveReminderViewModel by inject()
@@ -57,4 +60,4 @@ class SaveReminderFragment : BaseFragment() {
         _viewModel.onClear()
     }
 }
-*/
+

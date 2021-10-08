@@ -12,5 +12,21 @@
     <fragment
         android:id="@+id/remindersFragment"
         android:name="com.github.mariemmezghani.locationreminder.locationreminders.reminderslist.ReminderListFragment"
-        android:label="RemindersFragment" />
+        android:label="RemindersFragment" >
+        <action
+            android:id="@+id/action_remindersFragment_to_saveReminderFragment"
+            app:destination="@id/saveReminderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/saveReminderFragment"
+        android:name="com.github.mariemmezghani.locationreminder.locationreminders.savereminder.SaveReminderFragment"
+        android:label="SaveReminderFragment" >
+        <action
+            android:id="@+id/action_saveReminderFragment_to_selectLocationFragment"
+            app:destination="@id/selectLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectLocationFragment"
+        android:name="com.github.mariemmezghani.locationreminder.locationreminders.savereminder.selectreminderlocation.SelectLocationFragment"
+        android:label="SelectLocationFragment" />
 </navigation>

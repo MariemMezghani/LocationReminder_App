@@ -6,7 +6,10 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.github.mariemmezghani.locationreminder.R
 import com.github.mariemmezghani.locationreminder.base.BaseFragment
+import com.github.mariemmezghani.locationreminder.base.NavigationCommand
 import com.github.mariemmezghani.locationreminder.databinding.FragmentRemindersBinding
+import com.github.mariemmezghani.locationreminder.utils.setDisplayHomeAsUpEnabled
+import com.github.mariemmezghani.locationreminder.utils.setTitle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -26,8 +29,8 @@ class ReminderListFragment : BaseFragment() {
         binding.viewModel = _viewModel
 
         setHasOptionsMenu(true)
-        // setDisplayHomeAsUpEnabled(false)
-        //setTitle(getString(R.string.app_name))
+        setDisplayHomeAsUpEnabled(false)
+        setTitle(getString(R.string.app_name))
 
         binding.refreshLayout.setOnRefreshListener { _viewModel.loadReminders() }
 
@@ -51,11 +54,11 @@ class ReminderListFragment : BaseFragment() {
 
     private fun navigateToAddReminder() {
         //use the navigationCommand live data to navigate between the fragments
-        /*_viewModel.navigationCommand.postValue(
+        _viewModel.navigationCommand.postValue(
             NavigationCommand.To(
-                ReminderListFragmentDirections.toSaveReminder()
+                ReminderListFragmentDirections.actionRemindersFragmentToSaveReminderFragment()
             )
-        )*/
+        )
     }
 
     private fun setupRecyclerView() {
