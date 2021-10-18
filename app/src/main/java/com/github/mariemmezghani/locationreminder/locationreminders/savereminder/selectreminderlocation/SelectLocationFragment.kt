@@ -30,6 +30,7 @@ import org.koin.android.ext.android.inject
 
  class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
+
      //Use Koin to get the view model of the SaveReminder
      override val _viewModel: SaveReminderViewModel by inject()
      private lateinit var binding: FragmentSelectLocationBinding
@@ -49,7 +50,8 @@ import org.koin.android.ext.android.inject
 
 //        TODO: add the map setup implementation
          // Get the SupportMapFragment and request notification when the map is ready to be used.
-         val mapFragment = getChildFragmentManager().findFragmentById(R.id.map) as? SupportMapFragment
+         val mapFragment =
+             getChildFragmentManager().findFragmentById(R.id.map) as? SupportMapFragment
          mapFragment?.getMapAsync(this)
 //        TODO: zoom to the user location after taking his permission
 //        TODO: add style to the map
@@ -74,32 +76,36 @@ import org.koin.android.ext.android.inject
 
          // Add a marker in Sydney and move the camera
          val sydney = LatLng(-34.0, 151.0)
-         mMap.addMarker(MarkerOptions()
+         mMap.addMarker(
+             MarkerOptions()
                  .position(sydney)
-                 .title("Marker in Sydney"))
+                 .title("Marker in Sydney")
+         )
          mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
      }
 
-     /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // inflater.inflate(R.menu.map_options, menu)
-    }
-*/
-     /*override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        // TODO: Change the map type based on the user's selection.
-       *//* R.id.normal_map -> {
-            true
-        }
-        R.id.hybrid_map -> {
-            true
-        }
-        R.id.satellite_map -> {
-            true
-        }
-        R.id.terrain_map -> {
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }*//*
+     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+         inflater.inflate(R.menu.map_options, menu)
+     }
 
-    }*/
+     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+         R.id.normal_map -> {
+             mMap.mapType=GoogleMap.MAP_TYPE_NORMAL
+             true
+         }
+         R.id.hybrid_map -> {
+             mMap.mapType=GoogleMap.MAP_TYPE_HYBRID
+             true
+         }
+         R.id.satellite_map -> {
+             mMap.mapType=GoogleMap.MAP_TYPE_SATELLITE
+             true
+         }
+         R.id.terrain_map -> {
+             mMap.mapType=GoogleMap.MAP_TYPE_TERRAIN
+             true
+         }
+         else -> super.onOptionsItemSelected(item)
+     }
+
  }
