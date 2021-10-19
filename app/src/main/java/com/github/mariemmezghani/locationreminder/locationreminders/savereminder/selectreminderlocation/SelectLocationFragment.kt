@@ -3,24 +3,31 @@ package com.github.mariemmezghani.locationreminder.locationreminders.savereminde
 import com.github.mariemmezghani.locationreminder.R
 import android.Manifest
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.util.Log
 import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.*
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.github.mariemmezghani.locationreminder.BuildConfig
 import com.github.mariemmezghani.locationreminder.base.BaseFragment
 import com.github.mariemmezghani.locationreminder.databinding.FragmentSelectLocationBinding
 import com.github.mariemmezghani.locationreminder.locationreminders.savereminder.SaveReminderViewModel
 import com.github.mariemmezghani.locationreminder.utils.setDisplayHomeAsUpEnabled
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,9 +35,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_select_location.*
 import org.koin.android.ext.android.inject
+
+
+
 
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private val REQUEST_LOCATION_PERMISSION = 1
@@ -74,19 +83,10 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         //         and navigate back to the previous fragment to save the reminder and add the geofence
 
     }
-
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         enableMyLocation()
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney")
-        )
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     private fun isPermissionGranted(): Boolean {
@@ -101,8 +101,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         if (isPermissionGranted()) {
             mMap.setMyLocationEnabled(true)
         } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
             )
@@ -122,6 +121,9 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             }
         }
     }
+
+
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.map_options, menu)
