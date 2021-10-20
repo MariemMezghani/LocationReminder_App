@@ -10,6 +10,7 @@ import com.github.mariemmezghani.locationreminder.base.NavigationCommand
 import com.github.mariemmezghani.locationreminder.databinding.FragmentRemindersBinding
 import com.github.mariemmezghani.locationreminder.utils.setDisplayHomeAsUpEnabled
 import com.github.mariemmezghani.locationreminder.utils.setTitle
+import com.github.mariemmezghani.locationreminder.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -66,7 +67,7 @@ class ReminderListFragment : BaseFragment() {
         }
 
 //        setup the recycler view using the extension function
-       // binding.reminderssRecyclerView.setup(adapter)
+        binding.reminderssRecyclerView.setup(adapter)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

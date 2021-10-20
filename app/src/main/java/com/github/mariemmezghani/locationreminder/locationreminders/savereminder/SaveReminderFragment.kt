@@ -19,6 +19,7 @@ import com.github.mariemmezghani.locationreminder.R
 import com.github.mariemmezghani.locationreminder.base.BaseFragment
 import com.github.mariemmezghani.locationreminder.base.NavigationCommand
 import com.github.mariemmezghani.locationreminder.databinding.FragmentSaveReminderBinding
+import com.github.mariemmezghani.locationreminder.locationreminders.reminderslist.ReminderDataItem
 import com.github.mariemmezghani.locationreminder.utils.setDisplayHomeAsUpEnabled
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
@@ -78,6 +79,8 @@ class SaveReminderFragment : BaseFragment() {
 //             2) save the reminder to the local db
             requestForegroundAndBackgroundLocationPermissions()
             checkDeviceLocationSettingsAndStartGeofence()
+            _viewModel.validateAndSaveReminder(ReminderDataItem(title,description = description.value,location = location
+                                                     ,latitude =latitude.value,longitude = longitude))
         }
     }
 
