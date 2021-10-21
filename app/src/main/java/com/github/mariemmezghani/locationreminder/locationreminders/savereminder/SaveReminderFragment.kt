@@ -264,7 +264,7 @@ class SaveReminderFragment : BaseFragment() {
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                 addOnSuccessListener {
                     Log.d(TAG, "Geofences Added " + geofence.requestId)
-                    _viewModel.validateAndSaveReminder(reminderDataItem)
+                    _viewModel.saveReminder(reminderDataItem)
                 }
                 addOnFailureListener {
                     Log.d(TAG, getString(R.string.geofences_not_added))

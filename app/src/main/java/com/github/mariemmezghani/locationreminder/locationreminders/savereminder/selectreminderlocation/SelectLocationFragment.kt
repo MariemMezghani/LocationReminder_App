@@ -44,11 +44,13 @@ import java.util.*
 
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private val REQUEST_LOCATION_PERMISSION = 1
+    private val TAG = SelectLocationFragment::class.java.simpleName
 
     //Use Koin to get the view model of the SaveReminder
     override val _viewModel: SaveReminderViewModel by inject()
     private lateinit var binding: FragmentSelectLocationBinding
     private lateinit var mMap: GoogleMap
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     // location
     private var latitude:Double? = null
@@ -73,7 +75,9 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             getChildFragmentManager().findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-//        TODO: zoom to the user location after taking his permission
+         // zoom to the user location after taking his permission
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
 //        TODO: add style to the map
 //        TODO: put a marker to location that the user selected
 
@@ -104,6 +108,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         enableMyLocation()
         setMapLongClick(mMap)
         setPoiClick(mMap)
+        setMapStyle(mMap)
+        zoomToDeviceLocation()
     }
 
     private fun isPermissionGranted(): Boolean {
@@ -176,6 +182,40 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             poiMarker.showInfoWindow()
         }
     }
+    private fun setMapStyle(map: GoogleMap) {
+        try {
+            // Customize the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = map.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireActivity(),
+                    R.raw.map_style
+                )
+            )
+
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", e)
+        }
+    }
+    @SuppressLint("MissingPermission")
+    fun zoomToDeviceLocation() {
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
+            if (location != null) {
+                val userLatLng = LatLng(location.latitude, location.longitude)
+                val zoomLevel = 15f
+                mMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        userLatLng,
+                        zoomLevel
+                    )
+                )
+            }
+        }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.map_options, menu)
