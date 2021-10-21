@@ -5,7 +5,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.JobIntentService
 import com.github.mariemmezghani.locationreminder.R
-import com.github.mariemmezghani.locationreminder.locationreminders.data.RemindersLocalRepository
+import com.github.mariemmezghani.locationreminder.locationreminders.data.local.RemindersLocalRepository
 import com.github.mariemmezghani.locationreminder.locationreminders.data.dto.ReminderDTO
 import com.github.mariemmezghani.locationreminder.locationreminders.reminderslist.ReminderDataItem
 import com.google.android.gms.location.Geofence

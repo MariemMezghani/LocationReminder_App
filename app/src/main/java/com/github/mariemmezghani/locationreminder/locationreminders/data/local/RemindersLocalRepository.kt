@@ -1,5 +1,6 @@
-package com.github.mariemmezghani.locationreminder.locationreminders.data
+package com.github.mariemmezghani.locationreminder.locationreminders.data.local
 
+import com.github.mariemmezghani.locationreminder.locationreminders.data.ReminderDataSource
 import com.github.mariemmezghani.locationreminder.locationreminders.data.dto.ReminderDTO
 import com.github.mariemmezghani.locationreminder.locationreminders.data.local.RemindersDao
 import com.github.mariemmezghani.locationreminder.locationreminders.data.dto.Result

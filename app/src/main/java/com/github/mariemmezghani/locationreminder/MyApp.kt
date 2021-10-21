@@ -2,7 +2,7 @@ package com.github.mariemmezghani.locationreminder
 
 import android.app.Application
 import com.github.mariemmezghani.locationreminder.locationreminders.data.ReminderDataSource
-import com.github.mariemmezghani.locationreminder.locationreminders.data.RemindersLocalRepository
+import com.github.mariemmezghani.locationreminder.locationreminders.data.local.RemindersLocalRepository
 import com.github.mariemmezghani.locationreminder.locationreminders.data.local.LocalDB
 import com.github.mariemmezghani.locationreminder.locationreminders.reminderslist.RemindersListViewModel
 import com.github.mariemmezghani.locationreminder.locationreminders.savereminder.SaveReminderViewModel
