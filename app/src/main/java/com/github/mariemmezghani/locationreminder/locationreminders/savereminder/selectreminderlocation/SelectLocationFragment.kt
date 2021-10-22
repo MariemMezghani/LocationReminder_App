@@ -3,10 +3,6 @@ package com.github.mariemmezghani.locationreminder.locationreminders.savereminde
 import com.github.mariemmezghani.locationreminder.R
 import android.Manifest
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
-import android.app.Activity
-import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.Uri
