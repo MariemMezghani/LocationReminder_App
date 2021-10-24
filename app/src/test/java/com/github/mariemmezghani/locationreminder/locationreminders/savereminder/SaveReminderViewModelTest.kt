@@ -7,6 +7,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.mariemmezghani.locationreminder.MainCoroutineRule
+import com.github.mariemmezghani.locationreminder.R
 import com.github.mariemmezghani.locationreminder.data.FakeDataSource
 import com.github.mariemmezghani.locationreminder.getOrAwaitValue
 import com.github.mariemmezghani.locationreminder.locationreminders.data.dto.ReminderDTO
@@ -26,7 +27,6 @@ import org.robolectric.annotation.Config
 import java.util.*
 
 @ExperimentalCoroutinesApi
-//@RunWith(RobolectricTestRunner::class)
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class SaveReminderViewModelTest() : TestCase() {
@@ -38,9 +38,6 @@ class SaveReminderViewModelTest() : TestCase() {
     private lateinit var dataSource:FakeDataSource
     private lateinit var saveReminderViewModel: SaveReminderViewModel // instance under test
 
-    constructor(parcel: Parcel) : this() {
-
-    }
 
     @Before
     fun setUpViewModel(){
@@ -51,7 +48,6 @@ class SaveReminderViewModelTest() : TestCase() {
 
     @Test
     fun showLoading(){
-
         // Given
         val data = ReminderDataItem(
             title = "test,",
@@ -66,9 +62,28 @@ class SaveReminderViewModelTest() : TestCase() {
 
         // Then
         MatcherAssert.assertThat(saveReminderViewModel.showLoading.getOrAwaitValue(), Matchers.`is`(false))
-
     }
 
+    @Test
+    fun errorSnackbar() {
+        // Given
+        val data = ReminderDataItem(
+            title = null,
+            description = "test",
+            location = "location",
+            latitude = 0.0,
+            longitude = 0.0,
+            id = UUID.randomUUID().toString()
+        )
 
+        // When
+        saveReminderViewModel.validateEnteredData(data)
+
+        // Then
+        MatcherAssert.assertThat(
+            saveReminderViewModel.showSnackBarInt.getOrAwaitValue(),
+            Matchers.`is`(R.string.err_enter_title)
+        )
+    }
 
 }
