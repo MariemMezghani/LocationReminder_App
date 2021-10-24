@@ -17,6 +17,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -37,14 +38,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    testOptions.unitTests {
-        includeAndroidResources = true
-        returnDefaultValues = true
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
     }
 
     buildFeatures {
         dataBinding true
     }
+
 }
 
 dependencies {
@@ -124,6 +128,10 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMakerVersion"
     androidTestImplementation('org.koin:koin-test:2.0.1') { exclude group: 'org.mockito' }
+    testImplementation 'org.robolectric:robolectric:4.3.1'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
 
     //Maps & Geofencing
     implementation "com.google.android.gms:play-services-location:$playServicesVersion"

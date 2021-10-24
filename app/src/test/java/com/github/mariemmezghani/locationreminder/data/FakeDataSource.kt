@@ -9,14 +9,14 @@ import com.github.mariemmezghani.locationreminder.locationreminders.data.dto.Res
 
 //Use FakeDataSource that acts as a test double to the LocalDataSource
 
-class FakeDataSource(var reminders: MutableList<ReminderDTO>? = mutableListOf()) :
+class FakeDataSource(var reminders: MutableList<ReminderDTO> = mutableListOf()) :
     ReminderDataSource {
 
     private var error = false
 
 
     override suspend fun getReminders(): Result<List<ReminderDTO>> {
-        // Return the reminders
+        // Return the remindersevcxvcxc/6trfcx
         if (!error) {
             // reminders null? !! nullpointerexception??
             return Success(ArrayList(reminders))
