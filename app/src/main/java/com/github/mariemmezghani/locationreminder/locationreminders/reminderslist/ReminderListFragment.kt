@@ -1,9 +1,11 @@
 package com.github.mariemmezghani.locationreminder.locationreminders.reminderslist
 
 import android.os.Bundle
-import android.provider.Settings.Global.getString
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.firebase.ui.auth.AuthUI
 import com.github.mariemmezghani.locationreminder.R
 import com.github.mariemmezghani.locationreminder.base.BaseFragment
 import com.github.mariemmezghani.locationreminder.base.NavigationCommand
@@ -34,6 +36,7 @@ class ReminderListFragment : BaseFragment() {
         setTitle(getString(R.string.app_name))
 
         binding.refreshLayout.setOnRefreshListener { _viewModel.loadReminders() }
+
 
         return binding.root
     }
@@ -71,19 +74,22 @@ class ReminderListFragment : BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*when (item.itemId) {
+        when (item.itemId) {
             R.id.logout -> {
-//                TODO: add the logout implementation
+                AuthUI.getInstance().signOut(requireContext())
             }
-        }*/
-        return super.onOptionsItemSelected(item)
+        }
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController()
+        ) || super.onOptionsItemSelected(item)
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 //        display logout as menu item
-        // inflater.inflate(R.menu.main_menu, menu)
+        inflater.inflate(R.menu.menu, menu)
     }
 
 }

@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.core.app.JobIntentService
 import com.github.mariemmezghani.locationreminder.R
 import com.github.mariemmezghani.locationreminder.locationreminders.data.ReminderDataSource
-import com.github.mariemmezghani.locationreminder.locationreminders.data.local.RemindersLocalRepository
 import com.github.mariemmezghani.locationreminder.locationreminders.data.dto.ReminderDTO
 import com.github.mariemmezghani.locationreminder.locationreminders.reminderslist.ReminderDataItem
 import com.google.android.gms.location.Geofence
@@ -63,6 +62,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
         }
 
     }
+
     private fun errorMessage(errorCode: Int): String {
         return when (errorCode) {
             GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE -> resources.getString(
