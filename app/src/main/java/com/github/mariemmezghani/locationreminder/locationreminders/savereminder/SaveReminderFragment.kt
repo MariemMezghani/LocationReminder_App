@@ -229,7 +229,6 @@ class SaveReminderFragment : BaseFragment() {
         }
     }
 
-
     /*
     * this method checks if the user has turned the location on.
     * If not, it will ask him again*/
@@ -244,6 +243,8 @@ class SaveReminderFragment : BaseFragment() {
     private fun addGeofenceForReminder() {
 
         if (_viewModel.validateEnteredData(reminderDataItem)) {
+
+            _viewModel.saveReminder(reminderDataItem)
             // build geofence using Geofence Builder
             val geofence = Geofence.Builder()
                 .setRequestId(reminderDataItem.id)
@@ -264,7 +265,7 @@ class SaveReminderFragment : BaseFragment() {
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                 addOnSuccessListener {
                     Log.d(TAG, "Geofences Added " + geofence.requestId)
-                    _viewModel.saveReminder(reminderDataItem)
+                    // _viewModel.saveReminder(reminderDataItem)
                 }
                 addOnFailureListener {
                     Log.d(TAG, getString(R.string.geofences_not_added))
