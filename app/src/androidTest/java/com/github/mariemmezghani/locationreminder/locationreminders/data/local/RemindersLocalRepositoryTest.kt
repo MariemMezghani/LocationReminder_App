@@ -18,6 +18,7 @@ import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.util.*
@@ -45,6 +46,11 @@ class RemindersLocalRepositoryTest {
             .build()
         repository = RemindersLocalRepository(database.reminderDao(), Dispatchers.Main)
     }
+    @After
+    fun closeDB(){
+        database.close()
+    }
+
 
     @Test
     fun test_saveReminder_getCorrectReminder() = runBlocking {
