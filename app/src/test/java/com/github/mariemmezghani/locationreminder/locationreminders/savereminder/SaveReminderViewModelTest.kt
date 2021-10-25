@@ -14,6 +14,7 @@ import com.github.mariemmezghani.locationreminder.locationreminders.data.dto.Rem
 import com.github.mariemmezghani.locationreminder.locationreminders.reminderslist.ReminderDataItem
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
@@ -57,8 +58,11 @@ class SaveReminderViewModelTest() : TestCase() {
             longitude = 0.0,
             id = UUID.randomUUID().toString()
         )
+        //Do we really need runBlockingTest hier? because we are not testing a suspend function. the test passed without it
         // when
-        saveReminderViewModel.saveReminder(data)
+        mainCoroutineRule.runBlockingTest {
+            saveReminderViewModel.saveReminder(data)
+        }
 
         // Then
         MatcherAssert.assertThat(saveReminderViewModel.showLoading.getOrAwaitValue(), Matchers.`is`(false))
@@ -77,7 +81,9 @@ class SaveReminderViewModelTest() : TestCase() {
         )
 
         // When
-        saveReminderViewModel.validateEnteredData(data)
+        mainCoroutineRule.runBlockingTest {
+            saveReminderViewModel.validateEnteredData(data)
+        }
 
         // Then
         MatcherAssert.assertThat(
