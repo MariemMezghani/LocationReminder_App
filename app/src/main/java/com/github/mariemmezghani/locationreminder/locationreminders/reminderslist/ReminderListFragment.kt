@@ -1,5 +1,6 @@
 package com.github.mariemmezghani.locationreminder.locationreminders.reminderslist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
@@ -7,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.firebase.ui.auth.AuthUI
 import com.github.mariemmezghani.locationreminder.R
+import com.github.mariemmezghani.locationreminder.authentication.AuthenticationActivity
 import com.github.mariemmezghani.locationreminder.base.BaseFragment
 import com.github.mariemmezghani.locationreminder.base.NavigationCommand
 import com.github.mariemmezghani.locationreminder.databinding.FragmentRemindersBinding
@@ -76,13 +78,17 @@ class ReminderListFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {
-                AuthUI.getInstance().signOut(requireContext())
+                AuthUI.getInstance()
+                    .signOut(requireContext())
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            activity?.finish()
+                            startActivity(Intent(context, AuthenticationActivity::class.java))
+                        }
+                    }
             }
         }
-        return NavigationUI.onNavDestinationSelected(
-            item,
-            requireView().findNavController()
-        ) || super.onOptionsItemSelected(item)
+        return  super.onOptionsItemSelected(item)
 
     }
 

@@ -2,7 +2,10 @@ package com.github.mariemmezghani.locationreminder.locationreminders
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.navigation.fragment.NavHostFragment
 import com.github.mariemmezghani.locationreminder.R
+import kotlinx.android.synthetic.main.activity_reminders.*
 
 
 class RemindersActivity : AppCompatActivity() {
@@ -12,5 +15,13 @@ class RemindersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_reminders)
     }
 
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                (nav_host_fragment as NavHostFragment).navController.popBackStack()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
