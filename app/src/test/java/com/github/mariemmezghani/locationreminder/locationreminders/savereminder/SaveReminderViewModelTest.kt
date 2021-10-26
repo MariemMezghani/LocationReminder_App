@@ -48,7 +48,8 @@ class SaveReminderViewModelTest() : TestCase() {
     }
 
     @Test
-    fun showLoading(){
+    fun showLoading()= runBlockingTest{
+        mainCoroutineRule.pauseDispatcher()
         // Given
         val data = ReminderDataItem(
             title = "test,",
@@ -58,13 +59,12 @@ class SaveReminderViewModelTest() : TestCase() {
             longitude = 0.0,
             id = UUID.randomUUID().toString()
         )
-        //Do we really need runBlockingTest hier? because we are not testing a suspend function. the test passed without it
         // when
-        mainCoroutineRule.runBlockingTest {
             saveReminderViewModel.saveReminder(data)
-        }
 
         // Then
+        MatcherAssert.assertThat(saveReminderViewModel.showLoading.getOrAwaitValue(), Matchers.`is`(true))
+        mainCoroutineRule.resumeDispatcher()
         MatcherAssert.assertThat(saveReminderViewModel.showLoading.getOrAwaitValue(), Matchers.`is`(false))
     }
 

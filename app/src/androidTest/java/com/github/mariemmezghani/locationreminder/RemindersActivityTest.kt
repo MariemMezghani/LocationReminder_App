@@ -141,6 +141,5 @@ class RemindersActivityTest : AutoCloseKoinTest() {
             .check(ViewAssertions.matches(withText(R.string.err_select_location)))
 
         activityScenario.close()
-
     }
 }
