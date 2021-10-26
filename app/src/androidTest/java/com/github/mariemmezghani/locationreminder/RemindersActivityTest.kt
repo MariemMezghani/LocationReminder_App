@@ -6,10 +6,12 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.rule.ActivityTestRule
 import com.github.mariemmezghani.locationreminder.locationreminders.RemindersActivity
 import com.github.mariemmezghani.locationreminder.locationreminders.data.ReminderDataSource
 import com.github.mariemmezghani.locationreminder.locationreminders.data.local.LocalDB
@@ -19,8 +21,10 @@ import com.github.mariemmezghani.locationreminder.locationreminders.savereminder
 import com.github.mariemmezghani.locationreminder.util.DataBindingIdlingResource
 import com.github.mariemmezghani.locationreminder.util.monitorActivity
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.not
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
@@ -37,6 +41,9 @@ import org.koin.test.AutoCloseKoinTest
 class RemindersActivityTest : AutoCloseKoinTest() {
     private lateinit var repository: ReminderDataSource
     private val dataBindingIdlingResource = DataBindingIdlingResource()
+    @Rule
+    @JvmField var activityRule: ActivityTestRule<RemindersActivity?>? = ActivityTestRule(RemindersActivity::class.java)
+
 
     @Before
     fun setUp() {
@@ -110,11 +117,30 @@ class RemindersActivityTest : AutoCloseKoinTest() {
         onView(withId(R.id.save_button)).perform(click())
         // save reminder
         onView(withId(R.id.saveReminder)).perform(click())
+        // test Toast
+        onView(withText(R.string.reminder_saved)).inRoot(withDecorView(not(activityRule?.getActivity()?.getWindow()?.getDecorView()))).check(ViewAssertions.matches(isDisplayed()))
+
         // reminder displayed
         onView(withText("test")).check(ViewAssertions.matches(isDisplayed()))
         onView(withText("description")).check(ViewAssertions.matches(isDisplayed()))
         activityScenario.close()
 
     }
+    @Test
+    fun test_noLocation_snackbarDisplayed(){
+        val activityScenario = ActivityScenario.launch(RemindersActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+        // Click FAB and add inly title and description
+        onView(withId(R.id.addReminderFAB)).perform(click())
+        onView(withId(R.id.reminderTitle)).perform(replaceText("test"))
+        onView(withId(R.id.reminderDescription)).perform(replaceText("description"))
+        // click on save reminder
+        onView(withId(R.id.saveReminder)).perform(click())
+        // test snackbar displayed
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(ViewAssertions.matches(withText(R.string.err_select_location)))
 
+        activityScenario.close()
+
+    }
 }
